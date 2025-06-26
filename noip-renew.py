@@ -110,6 +110,10 @@ class Robot:
         except:
             with open("page_2fa_debug.html", "w", encoding="utf-8") as f:
                 f.write(self.browser.page_source)
+            self.browser.save_screenshot("2fa_debug.png")
+            with open("page_2fa_debug.html", "w", encoding="utf-8") as f:
+                f.write(self.browser.page_source)
+
             raise Exception("2FA verify page could not load")
 
         if self.debug > 1:
