@@ -28,7 +28,7 @@ jobs:
 
       - name: Upload debug page (if exists)
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: page_2fa_debug
           path: page_2fa_debug.html
