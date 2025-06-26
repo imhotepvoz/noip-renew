@@ -35,7 +35,7 @@ jobs:
         env:
           NOIP_USERNAME: ${{ secrets.NOIP_USERNAME }}
           NOIP_PASSWORD: ${{ secrets.NOIP_PASSWORD }}
-          NOIP_2FA_KEY:  ${{ secrets.NOIP_2FA_KEY }}
+          NOIP_2FA_KEY:  ${{ secrets.NOIP_2FA_SECRET_KEY }}
         run: |
           ENCODED_PASSWORD=$(echo -n "$NOIP_PASSWORD" | base64)
           python noip-renew.py "$NOIP_USERNAME" "$ENCODED_PASSWORD" "$NOIP_2FA_KEY"
