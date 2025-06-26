@@ -103,7 +103,7 @@ class Robot:
         ele_pwd.send_keys(Keys.ENTER)
         
         try:
-            elem = WebDriverWait(self.browser, 10).until( EC.presence_of_element_located((By.ID, "verificationCode")))
+            elem = WebDriverWait(self.browser, 30).until( EC.presence_of_element_located((By.ID, "verificationCode")))
         except:
             raise Exception("2FA verify page could not load")
 
