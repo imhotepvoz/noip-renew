@@ -22,7 +22,9 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y chromium-browser
-          pip install requests selenium pyotp
+          python -m pip install --upgrade pip
+          python -m pip install requests selenium pyotp
+
       - name: Run noip-renew
         env:
           NOIP_USERNAME: ${{ secrets.NOIP_USERNAME }}
