@@ -3,11 +3,12 @@ name: Renew NoIP hostname
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 */6 * * *'  # Mỗi 6 giờ chạy 1 lần
+    - cron: '0 */6 * * *'
 
 jobs:
   renew:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
