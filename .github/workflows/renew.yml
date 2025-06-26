@@ -25,6 +25,14 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install requests selenium pyotp
 
+      - name: Install Firefox & Geckodriver
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y firefox
+          wget https://github.com/mozilla/geckodriver/releases/latest/download/geckodriver-linux64.tar.gz
+          tar -xvzf geckodriver-linux64.tar.gz
+          sudo mv geckodriver /usr/local/bin
+
       - name: Run noip-renew
         env:
           NOIP_USERNAME: ${{ secrets.NOIP_USERNAME }}
