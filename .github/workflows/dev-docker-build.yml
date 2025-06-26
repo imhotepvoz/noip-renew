@@ -1,5 +1,5 @@
 name: DEV docker image auto build
-
+#ok
 on:
   push:
     branches: [ "dev" ]
