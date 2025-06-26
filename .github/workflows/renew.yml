@@ -18,20 +18,18 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
+      - name: Install Chromium and ChromeDriver
         run: |
           sudo apt-get update
-          sudo apt-get install -y chromium-browser
-          python -m pip install --upgrade pip
-          python -m pip install requests selenium pyotp
+          sudo apt-get install -y chromium-browser chromium-chromedriver
+          sudo ln -sf /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver
+          which chromedriver
+          chromedriver --version
 
-      - name: Install Firefox & Geckodriver
+      - name: Install Python dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y firefox
-          wget https://github.com/mozilla/geckodriver/releases/latest/download/geckodriver-linux64.tar.gz
-          tar -xvzf geckodriver-linux64.tar.gz
-          sudo mv geckodriver /usr/local/bin
+          python -m pip install --upgrade pip
+          python -m pip install selenium pyotp requests
 
       - name: Run noip-renew
         env:
