@@ -40,12 +40,13 @@ jobs:
           ENCODED_PASSWORD=$(echo -n "$NOIP_PASSWORD" | base64)
           python noip-renew.py "$NOIP_USERNAME" "$ENCODED_PASSWORD" "$NOIP_2FA_SECRET_KEY" 2
 
-      - name: Upload 2FA debug artifacts
+      - name: Upload failed my.noip page debug
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: 2fa_debug_files
+          name: my_noip_debug
           path: |
-            page_2fa_debug.html
-            2fa_debug.png
+            my_noip_failed.png
+            my_noip_failed.html
           if-no-files-found: ignore
+
