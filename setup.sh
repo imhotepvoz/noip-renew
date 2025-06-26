@@ -23,7 +23,7 @@ function config() {
     INSTEXE=$INSTDIR/noip-renew-$USER.sh
     CRONJOB="0 1    * * *   $INSTEXE $LOGDIR"
 }
-
+#ok
 function install() {
     OS=$(hostnamectl | grep -i "operating system")
     echo "$OS"
