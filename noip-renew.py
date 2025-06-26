@@ -115,14 +115,21 @@ class Robot:
         ele_challenge = elem.find_element(By.NAME, "challenge_code")
         self.browser.execute_script("arguments[0].focus();", ele_challenge)
         ActionChains(self.browser).send_keys(TOTP(self.totp_secret).now()).perform()
+       # Sau khi gửi OTP
         ActionChains(self.browser).send_keys(Keys.ENTER).perform()
-
-        # After Loggin browser loads my.noip.com page - give him some time to load
-        # 'noip-cart' element is near the end of html, so html have been loaded
+        
+        # Thay vì đợi 10s và raise lỗi ngay, ta xử lý sâu hơn
         try:
-            elem = WebDriverWait(self.browser, 30).until( EC.presence_of_element_located((By.ID, "noip-cart")))
-        except:
-            raise Exception("my.noip.com page could not load")        
+            elem = WebDriverWait(self.browser, 30).until(
+                EC.presence_of_element_located((By.ID, "noip-cart"))
+            )
+        except Exception as e:
+            # Ghi lại trang lỗi để phân tích
+            self.logger.log("Failed to load my.noip.com page")
+            self.browser.save_screenshot("my_noip_failed.png")
+            with open("my_noip_failed.html", "w", encoding="utf-8") as f:
+                f.write(self.browser.page_source)
+            raise Exception("my.noip.com page could not load: " + str(e))        
 
         if self.debug > 1:
             self.browser.save_screenshot("debug2.png")
