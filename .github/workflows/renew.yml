@@ -31,14 +31,15 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install selenium pyotp requests
 
-      - name: Run noip-renew
+      - name: Run noip-renew.py
         env:
           NOIP_USERNAME: ${{ secrets.NOIP_USERNAME }}
           NOIP_PASSWORD: ${{ secrets.NOIP_PASSWORD }}
-          NOIP_2FA_KEY:  ${{ secrets.NOIP_2FA_SECRET_KEY }}
+          NOIP_2FA_SECRET_KEY: ${{ secrets.NOIP_2FA_SECRET_KEY }}
         run: |
           ENCODED_PASSWORD=$(echo -n "$NOIP_PASSWORD" | base64)
-          python noip-renew.py "$NOIP_USERNAME" "$ENCODED_PASSWORD" "$NOIP_2FA_KEY"
+          python noip-renew.py "$NOIP_USERNAME" "$ENCODED_PASSWORD" "$NOIP_2FA_SECRET_KEY" 2
+
       - name: Upload 2FA debug artifacts
         if: always()
         uses: actions/upload-artifact@v4
