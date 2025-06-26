@@ -26,7 +26,13 @@ jobs:
           which chromedriver
           chromedriver --version
 
-
+      - name: Upload debug page (if exists)
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: page_2fa_debug
+          path: page_2fa_debug.html
+          if-no-files-found: ignore
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
