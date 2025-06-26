@@ -103,8 +103,13 @@ class Robot:
         ele_pwd.send_keys(Keys.ENTER)
         
         try:
-            elem = WebDriverWait(self.browser, 30).until( EC.presence_of_element_located((By.ID, "verificationCode")))
+            # Đợi chính xác ô nhập mã OTP thay vì div bọc
+            elem = WebDriverWait(self.browser, 30).until(
+                EC.presence_of_element_located((By.NAME, "challenge_code"))
+            )
         except:
+            with open("page_2fa_debug.html", "w", encoding="utf-8") as f:
+                f.write(self.browser.page_source)
             raise Exception("2FA verify page could not load")
 
         if self.debug > 1:
