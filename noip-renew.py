@@ -62,18 +62,17 @@ class Robot:
     @staticmethod
     def init_browser():
         options = webdriver.ChromeOptions()
-        options.binary_location = "/usr/bin/chromium-browser"  # << thêm dòng này
+        #added for Raspbian Buster 4.0+ versions. Check https://www.raspberrypi.org/forums/viewtopic.php?t=258019 for reference.
         options.add_argument("disable-features=VizDisplayCompositor")
         options.add_argument("headless")
-        options.add_argument("no-sandbox")
-        options.add_argument("disable-dev-shm-usage")
+        options.add_argument("no-sandbox")  # need when run in docker
         options.add_argument("window-size=1200x800")
         options.add_argument(f"user-agent={Robot.USER_AGENT}")
         options.add_argument("disable-gpu")
         if 'https_proxy' in os.environ:
             options.add_argument("proxy-server=" + os.environ['https_proxy'])
         browser = webdriver.Chrome(options=options)
-        browser.set_page_load_timeout(90)
+        browser.set_page_load_timeout(90) # Extended timeout for Raspberry Pi.
         return browser
 
     def login(self):
@@ -103,17 +102,8 @@ class Robot:
         ele_pwd.send_keys(Keys.ENTER)
         
         try:
-            # Đợi chính xác ô nhập mã OTP thay vì div bọc
-            elem = WebDriverWait(self.browser, 30).until(
-                EC.presence_of_element_located((By.NAME, "challenge_code"))
-            )
+            elem = WebDriverWait(self.browser, 10).until( EC.presence_of_element_located((By.ID, "verificationCode")))
         except:
-            with open("page_2fa_debug.html", "w", encoding="utf-8") as f:
-                f.write(self.browser.page_source)
-            self.browser.save_screenshot("2fa_debug.png")
-            with open("page_2fa_debug.html", "w", encoding="utf-8") as f:
-                f.write(self.browser.page_source)
-
             raise Exception("2FA verify page could not load")
 
         if self.debug > 1:
